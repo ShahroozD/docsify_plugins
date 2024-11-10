@@ -1,0 +1,41 @@
+.persian{
+    direction: rtl;
+}
+
+.poet{
+    margin: 1em 0;
+    font-style: italic;
+    display: grid;
+    column-gap: 2em;
+    grid-template-columns: calc(50% - 1em) calc(50% - 1em);
+}
+
+.poet > div:nth-child(even) {
+    text-align: right; /* Right-align content for odd-numbered columns */
+}
+
+.poet > div:nth-child(odd) {
+    text-align: left; /* Left-align content for even-numbered columns */
+}
+
+
+
+
+/* custom poet style */
+.poet {
+  max-width: fit-content;
+  justify-self: center;
+}
+
+.stanza{
+  width: 225px;
+  height: 32px;
+  text-align: justify !important;
+  display: inline-block;
+}
+
+.stanza:after {
+  content: "";
+  display: inline-block;
+  width: 100%;	
+}
