@@ -7,7 +7,7 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
         .map(line => line.trim()) // Trim all lines
         .filter(line => line); // Remove empty lines
 
-      let timelineHTML = '<div class="timeline">';
+      let timelineHTML = '<div class="timeline"><div class="timeline-container">';
       let currentItem = null;
 
       lines.forEach(line => {
@@ -19,9 +19,9 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
                 <div class="timeline-item-content">
                   ${currentItem.image ? `<div class="box"><div class="image"><img src="${currentItem.image}" alt="Madh Image"></div></div>` : ''}
                   <div class="text">
-                    <h3>${currentItem.title}</h3>
-                    <span>${currentItem.date}</span><br>
-                    ${currentItem.description}
+                    <h3>${marked(currentItem.title)}</h3>
+                    <span>${marked(currentItem.date)}</span>
+                    ${marked(currentItem.description)}
                   </div>
                 </div>
                 <div class="timeline-circle"></div>
@@ -55,9 +55,9 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
             <div class="timeline-item-content">
               ${currentItem.image ? `<div class="box"><div class="image"><img src="${currentItem.image}" alt="Madh Image"></div></div>` : ''}
               <div class="text">
-                <h3>${currentItem.title}</h3>
-                <span>${currentItem.date}</span><br>
-                ${currentItem.description}
+                <h3>${marked(currentItem.title)}</h3>
+                <span>${marked(currentItem.date)}</span><br>
+                ${marked(currentItem.description)}
               </div>
             </div>
             <div class="timeline-circle"></div>
@@ -65,7 +65,7 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
         `;
       }
 
-      timelineHTML += '</div>';
+      timelineHTML += '</div></div>';
       return timelineHTML;
     });
   });
