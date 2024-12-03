@@ -4,14 +4,27 @@
 
 .timeline {
     width: 100%;
-    position: relative;
-    margin: 50px 0;
+    display: flex;
+    justify-content: center;
     padding-bottom: 1px;
 }
 
-.timeline::before {
+.timeline p {
+    margin: 0 0 3px 0;
+}
+
+.timeline-container{
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    margin: 50px 0;
+    padding-bottom: 20px;
+}
+
+.timeline-container::before {
     content: '';
     position: absolute;
+    width: 100%;
     width: 1px;
     background-color: #000;
     top: 0;
@@ -22,7 +35,7 @@
 
 .timeline-item {
     display: flex;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     position: relative;
 }
 
@@ -47,11 +60,8 @@
 .timeline-item-content .text {
     flex: 1;
     padding: 5px 10px;
-    /* background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
     text-align: center;
+    align-self: baseline;
 }
 
 .timeline-item-content .text h3 {
@@ -62,16 +72,19 @@
     width: 80px;
     height: 100%;
     display: flex;
-    /* margin: 0 10px; */
     align-items: start;
     padding: 5px 0;
-
+    overflow: hidden;
 }
 
 .timeline-item-content .box .image{
     width: 80px;
-    height: 80px;
-    background-color: #aaa;
+    /* height: 80px; */
+    width: 80px;
+    min-height: 80px;
+    /* height: 100%; */
+    overflow: hidden;
+    /* background-color: #aaa; */
 }
 
 .timeline-item:nth-child(odd) .timeline-item-content {
