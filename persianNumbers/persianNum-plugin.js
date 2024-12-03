@@ -27,7 +27,7 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
         }
 
         // Add the current list item
-        listHtml += `<li>${itemContent}`;
+        listHtml += `<li>${marked(itemContent)}`;
         previousIndentLevel = currentIndentLevel;
       } else {
 

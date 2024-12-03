@@ -7,7 +7,7 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
         .flatMap(line => line.split(' -- ').map(stanza => stanza.trim()))
         .filter(stanza => stanza);
         
-        const wrappedLines = lines.map(line => `<div class="stanza">${line}</div>`).join('');
+        const wrappedLines = lines.map(line => `<div class="stanza">${marked(line)}</div>`).join('');
         return `<div class="persian poet">${wrappedLines}</div>`;
       });
     });

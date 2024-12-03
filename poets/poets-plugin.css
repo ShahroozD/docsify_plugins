@@ -34,7 +34,11 @@
   display: inline-block;
 }
 
-.stanza:after {
+.stanza p{
+  margin: 0;
+}
+
+.stanza p:after {
   content: "";
   display: inline-block;
   width: 100%;	
