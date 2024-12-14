@@ -11,6 +11,7 @@
     /* overflow-x: auto;
     overflow-y: hidden; */
     padding-bottom: 50px;
+    color: black;
   }
   .timetree p {
     margin: 0;
@@ -46,6 +47,7 @@
   .section-title {
     font-size: 1.5em;
     background: #333;
+    color: white;
     padding: 10px;
     text-transform: uppercase;
     text-align: center;
@@ -146,4 +148,15 @@
     background: #9b9b9b;
     margin-left: 35px; /* Align with the arrow */
     position: relative;
+  }
+
+
+  @media only screen and (max-width: 600px) {
+    .markdown-section{
+      max-width: none;
+    }
+    .timetree {
+      display: block;
+      overflow-x: auto;
+    }
   }
