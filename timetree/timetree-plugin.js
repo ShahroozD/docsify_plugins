@@ -27,12 +27,10 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
       if(regexNumber.test(lines[0])){
         let size = convertToNumber(lines[0]);
         if(size){
-          maxWidth = 'style="max-width: '+size+'px;"'
+          maxWidth = 'max-width: '+size+'px;'
         }
-        
       }
 
-      let timetreeHTML = '<div class="timetree"><div class="timetree-container" '+maxWidth+' >';
       let currentItem = null;
       const timetree = [];
       let currentSection = null;
@@ -57,12 +55,15 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
           currentSection.entries[currentSection.entries.length - 1].items.push(item);
         }
       });
-      console.log(timetree);
+
+      let timetreeHTML = `<div class="timetree ${(timetree[0].entries.length > 9) && 'scale'}">
+        <div class="flip">
+          <div class="timetree-container" style="${maxWidth}" >`;
 
       timetree.forEach(section => {
         timetreeHTML += `
           <div class="section">
-            ${(section.title)?`<div class="section-title">${marked(section.title)}</div>`:`<div class="section-free"></div>`}
+            ${(section.title)?`<div class="section-title"><div class="title">${marked(section.title)}</div></div>`:`<div class="section-free"></div>`}
               <div class="entries">
               ${section.entries
                 .map(entry => {
@@ -88,7 +89,7 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
       
       // }
 
-      timetreeHTML += '<span class="arrow">➤</span></div></div>';
+      timetreeHTML += '<span class="arrow">➤</span></div></div></div>';
       return timetreeHTML;
     });
   });
