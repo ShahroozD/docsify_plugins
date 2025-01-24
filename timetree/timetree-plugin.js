@@ -13,6 +13,7 @@ function convertToNumber(text) {
 
 
 window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
+  let randomId = 'timetree-' + Math.random().toString(36).substr(2, 9);
   hook.beforeEach(function (content) {
     return content.replace(/\.{3}نمودار\ درختی([\s\S]*?)\.{3}/g, function (match, content) {
       let maxWidth = '';
@@ -56,7 +57,7 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
         }
       });
 
-      let timetreeHTML = `<div class="timetree ${(timetree[0].entries.length > 9) && 'scale'}">
+      let timetreeHTML = `<div class="timetree ${(timetree[0].entries.length > 10) && 'scale'}">
         <div class="flip">
           <div class="timetree-container" style="${maxWidth}" >`;
 
@@ -85,12 +86,27 @@ window.$docsify.plugins = window.$docsify.plugins.concat(function (hook) {
       });
       
       // Finalize the last item
-      // if (currentItem) {
-      
-      // }
 
       timetreeHTML += '<span class="arrow">➤</span></div></div></div>';
       return timetreeHTML;
     });
   });
+
+  hook.doneEach(function () {
+    const timetrees = document.querySelectorAll('.timetree.scale');
+    timetrees.forEach(timetree => {
+      const flipElement = timetree.querySelector('.flip'); 
+      const containerElement = timetree.querySelector('.timetree-container'); 
+      if (containerElement && flipElement) {
+        requestAnimationFrame(() => {
+          const height = containerElement.offsetHeight;
+          flipElement.style.height = height*0.7 + 'px';
+          console.log(`Set flipElement height to: ${height}px for timetree`);
+        });
+      }
+    });
+  });
+
 });
+
+
