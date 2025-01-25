@@ -76,8 +76,9 @@
     text-transform: uppercase;
     text-align: center;
     position: relative;
-
+    height: 48px;
   }
+  
   .section-title::after{
     content: " ";
     position: absolute;
@@ -104,7 +105,13 @@
     .timetree.scale .title, .title{
       right: 30%;
     }
-    
+  }
+
+  @media only screen and (max-width: 600px) {
+    .timetree.scale .title, .title{
+      right: 10%;
+      left: -10%;
+    }
   }
 
   .entries{
@@ -184,7 +191,15 @@
     height: 30px;
     left: 0;
     transform: scaleX(-1);
-    top: 49px;
+    top: 50px;
+    font-family: Arial,serif;
+  }
+
+  @supports (-moz-appearance: none) {
+    .arrow {
+        position: -moz-sticky;
+        top: 51px;
+    }
   }
 
   .timetree.scale .arrow {
