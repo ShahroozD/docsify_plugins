@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Docsify Custom Plugin Example</title>
+  <link
+    rel="stylesheet"
+    href="https:////cdn.jsdelivr.net/npm/docsify@4/themes/vue.css"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="neiltime-plugin.css">
+
+</head>
+<body>
+    <div data-app id="main">...</div>
+    
+  <script src="https:////cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script>
+    window.$docsify = {
+      el: '#main',
+      plugins: []
+    };
+  </script>
+  <script src="./neiltime-plugin.js"></script>
+</body>
+</html>
