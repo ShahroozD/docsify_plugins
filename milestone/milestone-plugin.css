@@ -1,0 +1,153 @@
+.milestone{
+  position: relative;
+  padding: 160px 0 315px 0;
+  white-space: nowrap;
+  background: #1e1e1e;
+  direction: rtl !important;
+}
+
+.milestone-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-horizontal {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #888;
+  z-index: 1;
+}
+
+.timeline-event {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  height: 60px; 
+}
+
+.reverse{
+  direction: ltr;
+}
+
+.reverse .timeline-item-content .timeline-year{
+  text-align: left;
+}
+
+.top{
+
+}
+.bottom{
+  align-items: end;
+}
+
+.timeline-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+  justify-content: center;
+}
+
+
+
+.timeline-horizontal::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: #333;
+  z-index: 0;
+}
+
+.top-container {
+  position: absolute;
+  top: -52px;
+  align-items: start;
+  width: 100%;
+  left: 0;
+}
+
+.bottom-container {
+  position: absolute;
+  top: -6px;
+  align-items: flex-end;
+  width: 100%;
+  left: 0;
+}
+
+
+
+/* === */
+
+
+.timeline-item-arrow{
+}
+
+
+
+.timeline-item-arrow{
+  position: relative;
+  width: 14px;
+  height: 100%;
+}
+
+.timeline-connector {
+  width: 2px;
+  min-height: 40px;
+  background: #aaa;
+  margin: 0 auto;
+  z-index: 0;
+  height: 100%;
+}
+.timeline-circle {
+  width: 14px;
+  height: 14px;
+  background: #d4b483;
+  border: 2px solid #444;
+  border-radius: 50%;
+  z-index: 3;
+  position: absolute;
+}
+
+.top  .timeline-circle {
+  bottom: 0;
+}
+
+.bottom  .timeline-circle {
+  top: 0;
+  
+}
+
+.bottom .timeline-item-content {
+  
+}
+
+/* ----- */
+
+ .timeline-item-content .timeline-year {
+  margin: 0;
+  font-size: 16px;
+  color: #4fa3d1;
+  direction: ltr !important;
+  text-align: right;
+}
+
+ .timeline-item-content .timeline-description {
+  font-size: 13px;
+  /* color: #ccc; */
+  max-width: 220px;
+}
+
+@media (max-width: 600px) {
+  .timeline-event {
+    margin: 0 10px;
+  }
+  .timeline-description {
+    max-width: 150px;
+  }
+}
