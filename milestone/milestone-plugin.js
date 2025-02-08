@@ -1,3 +1,20 @@
+
+let maxHeight = 0;
+const adjustment = 60;
+
+
+function convertToNumber(text) {
+
+  const persianToEnglishMap = {
+      '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4',
+      '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9'
+  };
+
+  const converted = text.replace(/[\u06F0-\u06F9]/g, char => persianToEnglishMap[char]);
+
+  return Number(converted);
+}
+
 const milestonePlugin = (hook, vm) => {
   let timelineData = [];
 
@@ -17,7 +34,7 @@ const milestonePlugin = (hook, vm) => {
         lines.forEach(line => {
           if (line.startsWith('>')) {
             const [time, desc] = line.split(' : ');
-            events.push({ time: parseInt(time.trim().replace(/>\s*/, '')), desc: desc.trim() });
+            events.push({ time: convertToNumber(time.trim().replace(/>\s*/, '')), desc: desc.trim() });
           }
         });
         timelineData = [...timelineData, ...events];
@@ -30,6 +47,7 @@ const milestonePlugin = (hook, vm) => {
   hook.doneEach(function () {
     const container = document.getElementById('milestone-timeline');
     if (!container || timelineData.length === 0) return;
+    timelineData.sort((a, b) => a.time - b.time);
     console.log(timelineData);
     const containerWidth = container.offsetWidth;
     const min = timelineData[0].time;
@@ -47,15 +65,16 @@ const milestonePlugin = (hook, vm) => {
       // Build the event's HTML
       const eventHTML = `
         <div 
-          class="timeline-event  ${index % 2 === 0 ? 'top' : 'bottom'}"
+          ${(index === timelineData.length - 1)?"id='last-item'":""}
+          class="milestone-event  ${index % 2 === 0 ? 'top' : 'bottom'}"
           style="right:${positionPercent}%; position: absolute;">
-          <div class="timeline-item-arrow">
-            <div class="timeline-connector"></div>
-            <div class="timeline-circle"></div>
+          <div class="milestone-item-arrow">
+            <div class="milestone-connector"></div>
+            <div class="milestone-circle"></div>
           </div>
-          <div class="timeline-item-content">
-            <div class="timeline-year">${event.time}</div>
-            <div class="timeline-description">${event.desc}</div>
+          <div class="milestone-item-content">
+            <div class="milestone-year">${event.time}</div>
+            <div class="milestone-description">${event.desc}</div>
           </div>
         </div>
       `;
@@ -70,7 +89,7 @@ const milestonePlugin = (hook, vm) => {
     // Build the final HTML for the timeline container.
     const timelineHTML = `
       <div class="milestone-container">
-        <div class="timeline-horizontal"></div>
+        <div class="milestone-horizontal"></div>
         <div class="top-container">
           ${topEventsHTML.join('')}
         </div>
@@ -82,12 +101,23 @@ const milestonePlugin = (hook, vm) => {
 
     container.innerHTML = timelineHTML;
 
+    reverseLastEvent();
+    
     // After rendering the timeline, adjust for collisions
     adjustTimelineEvents();
+
+
   });
 
+  function reverseLastEvent() {
+    const lastEvent = document.getElementById("last-item");
 
-  const adjustment = 60;
+    lastEvent.classList.add("reverse");
+
+    // Adjust position
+    const lastEventWidth = lastEvent.offsetWidth;   
+    lastEvent.style.right = `calc(${lastEvent.style.right} - ${lastEventWidth}px)`;
+  }
 
   function adjustTimelineEvents() {
     // Process both groups independently.
@@ -96,18 +126,14 @@ const milestonePlugin = (hook, vm) => {
   }
 
   function adjustGroup(selector, istop) {
+    const milestoneContainer = document.querySelector('.milestone');
     // Get all timeline events in the group
-    let events = document.querySelectorAll(selector + ' .timeline-event');
+    let events = document.querySelectorAll(selector + ' .milestone-event');
     if (!events || events.length === 0) return;
   
     // Convert to an array and sort by their right position
     events = Array.from(events);
-    events.sort((a, b) => {
-      const aright = parseFloat(a.style.right) || 0;
-      const bright = parseFloat(b.style.right) || 0;
-      return aright - bright;
-    });
-  
+    
     // First pass: Adjust events for overlap
     for (let i = events.length - 1; i >= 0; i--) {
       const current = events[i];
@@ -144,7 +170,7 @@ const milestonePlugin = (hook, vm) => {
       const prevRect = prev.getBoundingClientRect();
       const preprevRect = preprev?.getBoundingClientRect();
       
-      const horizontalOverlap = (currentRect.left+currentRect.width + 10 > prevRect.right || currentRect.right+currentRect.width + 10 < prevRect.left);
+      const horizontalOverlap = (currentRect.left+currentRect.width > prevRect.right || currentRect.right+currentRect.width  < prevRect.left);
       const verticalOverlap = (currentRect.bottom < prevRect.top || currentRect.top > prevRect.bottom);
       
       if (horizontalOverlap) {
@@ -164,10 +190,22 @@ const milestonePlugin = (hook, vm) => {
           current.style.top = -prevRect.height  + 'px';
         }
       }
+
+      if (currentRect.height > maxHeight) {
+        maxHeight = currentRect.height;
+      }
     }
+
+    // Apply the height
+    milestoneContainer.style.height = maxHeight + "px";
   }
-  
+
+  window.onresize = function(event) {
+    let maxHeight = 0;
+    adjustTimelineEvents();
+  };
 };
 
 window.$docsify = window.$docsify || {};
 window.$docsify.plugins = (window.$docsify.plugins || []).concat(milestonePlugin);
+

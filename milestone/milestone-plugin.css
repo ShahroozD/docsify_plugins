@@ -1,8 +1,7 @@
 .milestone{
   position: relative;
-  padding: 160px 0 315px 0;
+  /* padding: 160px 0 315px 0; */
   white-space: nowrap;
-  background: #1e1e1e;
   direction: rtl !important;
 }
 
@@ -11,9 +10,10 @@
   align-items: center;
   position: relative;
   z-index: 2;
+  height: 100%;
 }
 
-.timeline-horizontal {
+.milestone-horizontal {
   position: absolute;
   top: 50%;
   left: 0;
@@ -23,29 +23,33 @@
   z-index: 1;
 }
 
-.timeline-event {
+.milestone-event {
   position: absolute;
   display: flex;
   align-items: flex-start;
   height: 60px; 
 }
 
+.milestone-item-content{
+  z-index: 10;
+}
+
 .reverse{
   direction: ltr;
 }
 
-.reverse .timeline-item-content .timeline-year{
+.reverse .milestone-item-content .milestone-year{
   text-align: left;
 }
 
 .top{
-
+  
 }
 .bottom{
   align-items: end;
 }
 
-.timeline-container {
+.milestone-container {
   display: flex;
   flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
   justify-content: center;
@@ -53,7 +57,7 @@
 
 
 
-.timeline-horizontal::before {
+.milestone-horizontal::before {
   content: '';
   position: absolute;
   top: 50%;
@@ -66,7 +70,7 @@
 
 .top-container {
   position: absolute;
-  top: -52px;
+  top: calc(50% - 52px);
   align-items: start;
   width: 100%;
   left: 0;
@@ -74,7 +78,7 @@
 
 .bottom-container {
   position: absolute;
-  top: -6px;
+  top: calc(50% - 6px);
   align-items: flex-end;
   width: 100%;
   left: 0;
@@ -85,26 +89,26 @@
 /* === */
 
 
-.timeline-item-arrow{
+.milestone-item-arrow{
 }
 
 
 
-.timeline-item-arrow{
+.milestone-item-arrow{
   position: relative;
   width: 14px;
   height: 100%;
 }
 
-.timeline-connector {
+.milestone-connector {
   width: 2px;
   min-height: 40px;
-  background: #aaa;
+  background: #777;
   margin: 0 auto;
   z-index: 0;
   height: 100%;
 }
-.timeline-circle {
+.milestone-circle {
   width: 14px;
   height: 14px;
   background: #d4b483;
@@ -114,40 +118,44 @@
   position: absolute;
 }
 
-.top  .timeline-circle {
+.top  .milestone-circle {
   bottom: 0;
 }
 
-.bottom  .timeline-circle {
+.bottom  .milestone-circle {
   top: 0;
   
 }
 
-.bottom .timeline-item-content {
+.bottom .milestone-item-content {
   
 }
 
 /* ----- */
 
- .timeline-item-content .timeline-year {
+ .milestone-item-content .milestone-year {
   margin: 0;
   font-size: 16px;
-  color: #4fa3d1;
+  font-weight: bold;
+  /* color: #ccc;   */
   direction: ltr !important;
   text-align: right;
 }
 
- .timeline-item-content .timeline-description {
+ .milestone-item-content .milestone-description {
   font-size: 13px;
-  /* color: #ccc; */
+  /* color: #ccc;  */
   max-width: 220px;
+  /* box-shadow: 4px 2px 20px rgb(0 0 0 / 30%);
+  background-color: #00000030;
+  border-radius: 23%; */
 }
 
 @media (max-width: 600px) {
-  .timeline-event {
+  .milestone-event {
     margin: 0 10px;
   }
-  .timeline-description {
+  .milestone-description {
     max-width: 150px;
   }
 }
