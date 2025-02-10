@@ -2,7 +2,6 @@
 let maxHeight = 0;
 const adjustment = 60;
 
-
 function convertToNumber(text) {
 
   const persianToEnglishMap = {
@@ -44,11 +43,13 @@ const milestonePlugin = (hook, vm) => {
     return content;
   });
 
-  hook.doneEach(function () {
+  hook.doneEach(drawEvents);
+
+  function drawEvents(){
     const container = document.getElementById('milestone-timeline');
     if (!container || timelineData.length === 0) return;
     timelineData.sort((a, b) => a.time - b.time);
-    console.log(timelineData);
+
     const containerWidth = container.offsetWidth;
     const min = timelineData[0].time;
     const max = timelineData[timelineData.length - 1].time;
@@ -105,9 +106,7 @@ const milestonePlugin = (hook, vm) => {
     
     // After rendering the timeline, adjust for collisions
     adjustTimelineEvents();
-
-
-  });
+  }
 
   function reverseLastEvent() {
     const lastEvent = document.getElementById("last-item");
@@ -164,45 +163,49 @@ const milestonePlugin = (hook, vm) => {
     for (let i = 1; i < events.length; i++) {
   
       const current = events[i];
-      const prev = events[i - 1];
-      const preprev = events[i - 2];
-      const currentRect = current.getBoundingClientRect();
-      const prevRect = prev.getBoundingClientRect();
-      const preprevRect = preprev?.getBoundingClientRect();
-      
-      const horizontalOverlap = (currentRect.left+currentRect.width > prevRect.right || currentRect.right+currentRect.width  < prevRect.left);
-      const verticalOverlap = (currentRect.bottom < prevRect.top || currentRect.top > prevRect.bottom);
-      
-      if (horizontalOverlap) {
-        current.classList.add('reverse');
-        current.style.right = `calc(${current.style.right} - ${currentRect.width}px)`
+
+      if(current.id != "last-item"){
+        const prev = events[i - 1];
+        const preprev = events[i - 2];
+        const currentRect = current.getBoundingClientRect();
+        const prevRect = prev.getBoundingClientRect();
+        const preprevRect = preprev?.getBoundingClientRect();
         
-        let currentHeight = adjustment;
-        current.style.height = currentHeight + 'px';
-        if (istop) {
-          current.style.top = -currentHeight + adjustment + 'px';
+        const horizontalOverlap = (currentRect.left+currentRect.width > prevRect.right || currentRect.right+currentRect.width  < prevRect.left);
+        const verticalOverlap = (currentRect.bottom < prevRect.top || currentRect.top > prevRect.bottom);
+        
+        if (horizontalOverlap) {
+          current.classList.add('reverse');
+          current.style.right = `calc(${current.style.right} - ${currentRect.width}px)`
+          
+          let currentHeight = adjustment;
+          current.style.height = currentHeight + 'px';
+          if (istop) {
+            current.style.top = -currentHeight + adjustment + 'px';
+          }
+        } else if(currentRect.height > prevRect.height){
+          current.classList.add('reverse');
+          current.style.right = `calc(${current.style.right} - ${currentRect.width}px)`
+          current.style.height = prevRect.height + adjustment + 'px';
+          if (istop) {
+            current.style.top = -prevRect.height  + 'px';
+          }
         }
-      } else if(currentRect.height > prevRect.height){
-        current.classList.add('reverse');
-        current.style.right = `calc(${current.style.right} - ${currentRect.width}px)`
-        current.style.height = prevRect.height + adjustment + 'px';
-        if (istop) {
-          current.style.top = -prevRect.height  + 'px';
+  
+        if (currentRect.height > maxHeight) {
+          maxHeight = currentRect.height;
         }
       }
 
-      if (currentRect.height > maxHeight) {
-        maxHeight = currentRect.height;
-      }
     }
 
     // Apply the height
     milestoneContainer.style.height = maxHeight + "px";
   }
 
-  window.onresize = function(event) {
-    let maxHeight = 0;
-    adjustTimelineEvents();
+  window.onresize = function() {
+    maxHeight = 0;
+    drawEvents();
   };
 };
 
