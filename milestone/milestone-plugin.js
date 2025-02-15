@@ -19,6 +19,7 @@ const milestonePlugin = (hook, vm) => {
 
   hook.beforeEach(function (content) {
     let events = [];
+    timelineData = [];
 
     const regex = /\.{3}رویدادنامه([\s\S]*?)\.{3}/g;
     const matches = content.match(regex);
@@ -75,7 +76,7 @@ const milestonePlugin = (hook, vm) => {
           </div>
           <div class="milestone-item-content">
             <div class="milestone-year">${event.time}</div>
-            <div class="milestone-description">${event.desc}</div>
+            <div class="milestone-description">${marked(event.desc)}</div>
           </div>
         </div>
       `;
