@@ -216,7 +216,7 @@ const milestonePlugin = (hook, vm) => {
       
     }
     // Apply the height
-    container.closest('.milestone').style.height = maxHeight + "px";
+    container.closest('.milestone').style.height = (maxHeight+60) + "px";
     maxHeight = 0;
   }
 
