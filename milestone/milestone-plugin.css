@@ -19,10 +19,10 @@
 
 .milestone-horizontal {
   position: absolute;
-  top: 50%;
+  top: calc(50% - 3px);
   left: 0;
   right: 0;
-  height: 4px;
+  height: 3px;
   background: #888;
   z-index: 1;
 }
@@ -132,7 +132,8 @@
 }
 
 .bottom .milestone-item-content {
-  
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 /* ----- */
